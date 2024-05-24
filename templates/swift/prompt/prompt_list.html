@@ -1,0 +1,25 @@
+{% load static %}
+{% for prompt in prompts %}
+<tr>
+    <td>{{forloop.counter0|add:prompts.start_index}}</td>
+    <td>{{prompt.name}}</td>
+    <td>{{prompt.is_active}}</td>
+    
+    <td>
+        <a href="javascript:;" class="prompt-edit" id="prompt-edit" data-fancybox="" data-src="#prompt-popup" data-url="{% url 'appswift:update_prompt' prompt.id %}">
+            <img src="{% static '/swift/assets/images/edt_icon.svg' %}" alt="icon">
+        </a>
+
+        <a href="javascript:;" onclick="DeleteCurriculum({{prompt.id}})">
+            <img src="{% static '/swift/assets/images/dlt_icon.svg' %}" alt="icon">
+        </a>
+    </td>
+
+    <td>
+        <a href="javascript:;" class="prompt-out-add" id="prompt-out-add" data-fancybox="" data-src="#prompt-out-popup" data-url="">
+            <img src="{% static '/swift/assets/images/edt_icon.svg' %}" alt="icon">
+        </a>
+
+    </td>
+<tr>
+{% endfor %}

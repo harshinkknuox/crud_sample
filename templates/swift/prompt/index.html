@@ -1,0 +1,80 @@
+{% extends "swift/layout/user_base.html" %} {% load static %} {% block body_block %}
+<div class="content-inner full-screen">
+    <div class="page-block">
+        <input type="hidden" value="{% url 'appswift:prompt' %}" id="load_prompt">
+        <div class="d-flex justify-content-between">
+            <h1 class="page-block-title">Prompt</h1>
+            <div>
+                <a class="add-prompt" id="create_prompt" data-fancybox="" data-src="#prompt-popup"  data-url="{% url 'appswift:create_prompt'%}">
+                    <button>+</button>
+                </a>
+            </div>
+        </div>
+
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sl.NO</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                        <th>PromptOut</th>
+                    </tr>
+                </thead>
+
+                <tbody id="prompt-tbody">
+                    {% include 'swift/prompt/prompt_list.html' %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="pagination-outer align-items-center justify-content-between d-flex" id="prompt-pagination">
+        {% include 'swift/prompt/pagination.html' %}
+    </div>
+
+    <div>
+        <!-- Curriculum Add form starts-->
+        <div class="add-prompt" id="prompt-popup" style="display:none;">
+            <div class="pop-body" id="prompt-div">
+                <div class="formbg-inner">
+                    <form method="post" action="" class="PromptForm" id="PromptForm" name="PromptForm">
+                        {% csrf_token %}
+                        <h2 class="padding-bottom--15" id="popup_head">Add Prompttt</h2>
+                        <div class="prompt-form" id="prompt-form-div">
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Curriculum Add form ends -->
+    </div>
+
+    <div>
+        <!-- Prompt Out Add form starts-->
+        <div class="add-prompt-out" id="prompt-out-popup" style="display:none;">
+            <div class="pop-body" id="prompt-out-div">
+                <div class="formbg-inner">
+                    <form method="post" action="" class="PromptOutForm" id="PromptOutForm" name="PromptOutForm">
+                        {% csrf_token %}
+                        <h2 class="padding-bottom--15" id="popup_out_head">Add Prompt Out</h2>
+                        <div class="prompt-form" id="prompt-out-form-div">
+                            
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- Prompt Out Add form ends -->
+    </div>
+
+    
+
+
+</div>
+</div>
+{% endblock body_block %} 
+{% block page_script %}
+<script src="{% static '/swift/assets/js/prompt.js' %}?v={% now 'd_m_yH:i:s'%}"></script>
+{% endblock page_script %}
