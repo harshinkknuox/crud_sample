@@ -2,7 +2,7 @@
 *.pot
 *.pyc
 *.media
-*.env
+
 *.txt
 */__pycache__/
 *.pyc
@@ -14,7 +14,7 @@ media/
 *.DS_Store
 
 # Environments
-.env
+
 .venv
 env/
 venv/
