@@ -1,0 +1,21 @@
+<div class="formbg-inner">
+    <div class="edit-prompt-form">
+        {% if id %}
+            <input type="hidden" value="{% url 'appswift:update_prompt' id %}" id="form_url" name="form_url">
+        {% else %}
+            <input type="hidden" value="{% url 'appswift:create_promptout' %}" id="form_url" name="form_url">
+        {% endif %}            
+        <div class="field padding-bottom--24">
+            <label for="name">Name</label> {{form.name}}
+            <p class="text-danger mt-2 mb-0">{{ form.name.errors.as_text  }}</p>
+        </div>
+        <div class="field padding-bottom--24">
+            <label for="name">Desc</label> {{form.description}}
+            <p class="text-danger mt-2 mb-0">{{ form.description.errors.as_text  }}</p>
+        </div>
+
+        <div class="field padding-bottom--24">
+            <input class="prompt-out-submit" id="prompt-out-submit" type="submit" name="submit" value="Save">
+        </div>
+    </div>
+</div>

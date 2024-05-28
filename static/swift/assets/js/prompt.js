@@ -48,6 +48,57 @@ $(document).ready(function() {
             });
         },
     });
+
+    $("#PromptOutForm").validate({
+        rules: {},
+        messages: {},
+        submitHandler: function(form, event) {
+            event.preventDefault();
+            var formData = $("#PromptOutForm").serializeArray();
+            var url = $("#form_url").val()
+            $.ajax({
+                url: url,
+                headers: {
+                    "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val()
+                },
+                method: "POST",
+                data: formData,
+                beforeSend: function() {
+                    $("#prompt-out-submit").attr("disabled", "disabled");
+                    $("#prompt-out-submit").val("Saving...");
+                },
+                success: function(response) {
+                    if (response.status) {                        
+                        $(".carousel__button").click()
+                        FilterPrompt('')
+                        $(".msg_desc").text(response.message)
+                        $("#flash_message_success").attr("style", "display:block;")
+                        setTimeout(function() {
+                            $("#flash_message_success").attr("style", "display:none;")
+                        }, 3500)
+                        
+                    } else {
+                        alert('ho')
+                        if ('message' in response ){
+                            $(".carousel__button").click()
+                            $(".msg_desc").text(response.message)
+                            $("#flash_message_error").attr("style", "display:block;")
+                            setTimeout(function() {
+                                $("#flash_message_error").attr("style", "display:none;")
+                            }, 3500)                                                       
+                        } else {     
+                            alert('form')                    
+                            $('#prompt-out-form-div').html(response.template)     
+                        } 
+                    }                
+                },
+                complete: function() {
+                    $("#prompt-out-submit").attr("disabled", false);
+                    $("#prompt-out-submit").val("Save");
+                },
+            });
+        },
+    });
 });
 
 function FilterPrompt(page) {

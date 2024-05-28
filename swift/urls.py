@@ -3,6 +3,7 @@ from swift.views.account import *
 from swift.views.curriculum import *
 from swift.views.course import *
 from swift.views.prompt import *
+from swift.views.tool_template import *
 
 app_name = "appswift"
 # views
@@ -38,5 +39,7 @@ urlpatterns = [
     path('promptout/create/', PromptOutCreate.as_view(), name='create_promptout'),
 
 
+    #ToolTemplate
+    path('tooltemplate/create', ToolTemplateView.as_view(), name='tooltemplate_create'),
     
 ]
