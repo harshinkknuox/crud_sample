@@ -41,5 +41,7 @@ urlpatterns = [
 
     #ToolTemplate
     path('tooltemplate/create', ToolTemplateView.as_view(), name='tooltemplate_create'),
+    path('tooltemplate/input-details/create',ToolTemplateInputCreateView.as_view(), name='tooltemplate_input_create'),
+    
     
 ]

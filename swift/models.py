@@ -280,3 +280,4 @@ class ToolTemplateInput(models.Model):
 class ToolKeyword(models.Model):
     tool_template = models.ForeignKey(ToolTemplate,on_delete=models.CASCADE, related_name='tool_template_keyword')
     keyword = models.CharField(max_length=150)
+    

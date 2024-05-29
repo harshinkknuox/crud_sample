@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import authenticate
 from swift.models import  ToolInput,ToolType,ToolTemplateInput,ToolTemplate,ToolKeyword
 
+
 class ToolTemplateForm(forms.ModelForm):
     tool_type = forms.ModelChoiceField(
         queryset=ToolType.objects.all(),
@@ -31,8 +32,10 @@ class ToolTemplateForm(forms.ModelForm):
         fields = ['tool_type','tool_name','tool_context','youtube_link']
 
 
+
+
 class ToolInputForm(forms.ModelForm):
-    tool_template = forms.ModelChoiceField(queryset=ToolInput.objects.all(),                                                   
+    tool_input = forms.ModelChoiceField(queryset=ToolInput.objects.all(),                                                   
         widget=forms.Select(attrs={"class": "form-control"}),
         required=False,
         label="Tool Input",)
@@ -64,46 +67,45 @@ class ToolInputForm(forms.ModelForm):
             required=True,
             widget=forms.TextInput(attrs={'autocomplete': 'off'})
         )
+    
+
+    max_length =forms.IntegerField(
+            label='maxlength',
+            required=True,
+            widget=forms.NumberInput(attrs={'autocomplete': 'off'})
+        )
+
+    inp_validation_msg1 =forms.CharField(
+            label='Validation Message',
+            max_length=150,
+            required=True,
+            widget=forms.TextInput(attrs={'autocomplete': 'off'})
+        )
+    
+    min_length =forms.IntegerField(
+            label='minlength',
+            required=True,
+            widget=forms.NumberInput(attrs={'autocomplete': 'off'})
+        )
+    
+    inp_validation_msg2 =forms.CharField(
+            label='Validation Message',
+            max_length=150,
+            required=True,
+            widget=forms.TextInput(attrs={'autocomplete': 'off'})
+        )
 
     class Meta:
         model = ToolTemplateInput
-        fields = ['tool_template','place_holder','description','validation_message','sort_order']
+        fields = ['tool_input','place_holder','description','validation_message','sort_order','max_length','inp_validation_msg1','min_length','inp_validation_msg2']
 
 
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        instance.inputs = {
-            'place_holder': self.cleaned_data['place_holder'],
-            'description': self.cleaned_data['description']
-        }
-        if commit:
-            instance.save()
-        return instance
-
-
-# class PromptOutForm(forms.ModelForm):
-#     name = forms.CharField(
-#         label='Name',
-#         max_length=150,
-#         required=True,
-#         widget=forms.TextInput(attrs={'autocomplete': 'off'})
-#     )
-#     description = forms.CharField(
-#         label='Description',
-#         required=True,
-#         widget=forms.Textarea(attrs={'rows': 4})
-#     )
-
-#     class Meta:
-#         model = ToolTemplateInput
-#         fields = ['prompt', 'name', 'description']
-
-#     def save(self, commit=True):
-#         instance = super().save(commit=False)
-#         instance.inputs = {
-#             'name': self.cleaned_data['name'],
-#             'description': self.cleaned_data['description']
-#         }
-#         if commit:
-#             instance.save()
-#         return instance
+    # def save(self, commit=True):
+    #     instance = super().save(commit=False)
+    #     instance.inputs = {
+    #         'place_holder': self.cleaned_data['place_holder'],
+    #         'description': self.cleaned_data['description']
+    #     }
+    #     if commit:
+    #         instance.save()
+    #     return instance
