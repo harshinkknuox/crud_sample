@@ -90,7 +90,7 @@ USER_STATUS =(
 TOOL_TYPE =(
     ('text_box','text box'),
     ('text_area','text area'),
-    ('radio_button','radio button'),
+    ('email','email'),
     ('checkbox','checkbox'),
 )
 
@@ -243,13 +243,15 @@ class InputType(models.Model):
     name = models.CharField(max_length=150,)
     type = models.CharField(max_length=150,)
     
+    def __str__(self):
+        return self.name
 
 class ToolInput(models.Model):
     name = models.CharField(max_length=150,)
-    tool_type = models.CharField(choices=TOOL_TYPE,max_length=20)
+    tool_type = models.ForeignKey(InputType, on_delete=models.CASCADE, related_name='input_type')
 
     def __str__(self):
-        return self.name + ' - ' + self.tool_type
+        return self.name
 
 class ToolType(models.Model):
     tool_type_category = models.CharField(choices=TOOL_TYPE_CATEGORY,max_length=20)

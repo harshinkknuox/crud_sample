@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from swift.models import  ToolInput,ToolType,ToolTemplateInput,ToolTemplate,ToolKeyword
-
+from django.forms import inlineformset_factory
 
 class ToolTemplateForm(forms.ModelForm):
     tool_type = forms.ModelChoiceField(
@@ -10,7 +10,6 @@ class ToolTemplateForm(forms.ModelForm):
         required=False,
         label="Tool Type",
     )
-
 
     tool_name = forms.CharField( 
         label="Tool ", max_length=200, required = True,
@@ -30,9 +29,6 @@ class ToolTemplateForm(forms.ModelForm):
     class Meta:
         model = ToolTemplate
         fields = ['tool_type','tool_name','tool_context','youtube_link']
-
-
-
 
 class ToolInputForm(forms.ModelForm):
     tool_input = forms.ModelChoiceField(queryset=ToolInput.objects.all(),                                                   
@@ -100,6 +96,15 @@ class ToolInputForm(forms.ModelForm):
         fields = ['tool_input','place_holder','description','validation_message','sort_order','max_length','inp_validation_msg1','min_length','inp_validation_msg2']
 
 
+ToolInputFormFormSet = inlineformset_factory(
+    ToolTemplate,
+    ToolTemplateInput,
+    form=ToolInputForm,
+    extra=1,
+    can_delete=True,
+)
+
+
     # def save(self, commit=True):
     #     instance = super().save(commit=False)
     #     instance.inputs = {
@@ -109,3 +114,4 @@ class ToolInputForm(forms.ModelForm):
     #     if commit:
     #         instance.save()
     #     return instance
+
