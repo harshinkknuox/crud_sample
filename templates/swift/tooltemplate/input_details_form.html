@@ -1,8 +1,12 @@
 <div class="formbg-inner">
   <div class="edit-curriculum-form">
       
-      <input type="hidden" value="{% url 'appswift:tooltemplate_input_create' %}" id="form_url" name="form_url">
       
+      {% if id %}
+      <input type="hidden" value="{% url 'appswift:update_curriculum' id %}" id="form_url" name="form_url">
+      {% else %}
+      <input type="hidden" value="{% url 'appswift:tooltemplate_input_create' %}" id="form_url" name="form_url">
+      {% endif %}      
       
       <div class="field padding-bottom--24 ">
           <label for="name">Place Holder</label> {{form.place_holder}}
@@ -50,7 +54,7 @@
         
         
       <div class="field padding-bottom--24">
-          <input class="tooltemplate-submit" id="tooltemplate-submit" type="submit" name="submit" value="Save">
+          <input class="tooltemplate-input-submit" id="tooltemplate-input-submit" type="submit" name="submit" value="Save">
       </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ from swift.views.curriculum import *
 from swift.views.course import *
 from swift.views.prompt import *
 from swift.views.tool_template import *
+from swift.views.template_tool import *
 
 app_name = "appswift"
 # views
@@ -43,5 +44,7 @@ urlpatterns = [
     path('tooltemplate/create', ToolTemplateView.as_view(), name='tooltemplate_create'),
     path('tooltemplate/input-details/create',ToolTemplateInputCreateView.as_view(), name='tooltemplate_input_create'),
     
+
+    path('templatetool/create',TemplateToolView.as_view(), name='template_tool_create'),
     
 ]

@@ -1,0 +1,31 @@
+
+    <div class="formbg-inner">
+        <div class="edit-prompt-form">
+         <div class="col-lg-6">
+            <div class="field padding-bottom--24">
+                <label for="name">Tool Type</label> {{form.tool_type}}
+                <p class="text-danger mt-2 mb-0">{{ form.tool_type.errors.as_text  }}</p>
+            </div>
+            <div class="field padding-bottom--24">
+                <label for="name">Name</label> {{form.tool_name}}
+                <p class="text-danger mt-2 mb-0">{{ form.tool_name.errors.as_text  }}</p>
+            </div>
+
+            <div class="field padding-bottom--24">
+                <label for="name">tool context</label> {{form.tool_context}}
+                <p class="text-danger mt-2 mb-0">{{ form.tool_context.errors.as_text  }}</p>
+            </div>
+
+            <div class="field padding-bottom--24">
+                <label for="name">Youtube_link</label> {{form.youtube_link}}
+                <p class="text-danger mt-2 mb-0">{{ form.youtube_link.errors.as_text  }}</p>
+            </div>
+         
+        </div>
+
+            <div class="field padding-bottom--24">
+                <input class="template-tool-submit" id="template-tool-submit" type="submit" name="submit" value="Save">
+            </div>
+        
+        </div>
+    </div>
