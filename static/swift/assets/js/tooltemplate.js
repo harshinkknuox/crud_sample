@@ -26,6 +26,7 @@ $(document).ready(function() {
                         setTimeout(function() {
                             $("#flash_message_success").attr("style", "display:none;")
                         }, 3500)
+                        window.location.href = response.redirect_url;
                     } else {
                         alert('ho')
                         if ('message' in response ){
@@ -71,23 +72,32 @@ function FilterCurriculum(page) {
 
 
 
-$(document).on('click', '#create_input_details', function(event) {
+$(document).on('click', '.create_input_details', function(event) {
     event.preventDefault();
-    var url = $(this).attr('data-url')
+
+    var url = $(this).data('url');
+    var prefix = $(this).data('prefix');
+    console.log("prefix ===",prefix);
+    var row = $(this).closest('.form_set_row');
+    var tool = row.find('.tool-select').val();
+    console.log("tool ===", tool);
+    
     $.ajax({
         url: url,
         headers: { "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() },
         method: "GET",
-        data: {},
-        beforeSend: function() {
-            $('#inputdetails-form-div').html('Loading...')
+        data: {
+            'tool': tool
         },
-        success: function(response) {            
-            $('#inputdetails-form-div').html(response.template)
-            $('#popup_head').html(response.title)
+        beforeSend: function() {
+            $('#inputdetails-form-div-' + prefix).html('Loading...');
+        },
+        success: function(response) {
+            $('#inputdetails-form-div-' + prefix).html(response.template);
+            $('#popup_head-' + prefix).html(response.title);
         },
     });
-})
+});
 
 
 $(document).ready(function() {
@@ -141,6 +151,7 @@ $(document).ready(function() {
                         setTimeout(function() {
                             $("#flash_message_success").attr("style", "display:none;")
                         }, 3500)
+                        
                     } else {
                         alert('ho')
                         if ('message' in response ){

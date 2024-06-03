@@ -8,48 +8,63 @@
       <input type="hidden" value="{% url 'appswift:tooltemplate_input_create' %}" id="form_url" name="form_url">
       {% endif %}      
       
-      <div class="field padding-bottom--24 ">
-          <label for="name">Place Holder</label> {{form.place_holder}}
-          <p class="text-danger mt-2 mb-0">{{ form.place_holder.errors.as_text  }}</p>
-      </div>
-      <div class="field padding-bottom--24 ">
-          <label for="name">Description</label> {{form.description}}
-          <p class="text-danger mt-2 mb-0">{{ form.description.errors.as_text  }}</p>
-      </div>
+      {% if input_type == 'email' or input_type == 'textarea' %}
+      
+        <div class="field padding-bottom--24 ">
+            <label for="name">Place Holder</label> {{form.place_holder}}
+            <p class="text-danger mt-2 mb-0">{{ form.place_holder.errors.as_text }}</p>
+        </div>
+        
+        <div class="field padding-bottom--24 ">
+            <label for="name">Description</label> {{form.description}}
+            <p class="text-danger mt-2 mb-0">{{ form.description.errors.as_text }}</p>
+        </div>
 
-      <div class="field padding-bottom--24">
-          <h5>More Validation</h5>
-      </div>
+      {% elif input_type == 'number' %}
+            <div class="field padding-bottom--24 ">
+                <label for="name">Place Holder</label> {{form.place_holder}}
+                <p class="text-danger mt-2 mb-0">{{ form.place_holder.errors.as_text }}</p>
+            </div>
+            
+            <div class="field padding-bottom--24 ">
+                <label for="name">Description</label> {{form.description}}
+                <p class="text-danger mt-2 mb-0">{{ form.description.errors.as_text }}</p>
+            </div>
 
-      <li class="pop-input-items padding-bottom--24">
-          <div class="d-flex">
-            <div class="pop-input-wrapper max-length">
-              <label for="name">maxlength</label>
-              {{form.max_length}}
-              <p class="text-danger mt-2 mb-0">{{ form.max_length.errors.as_text  }}</p>
+            <div class="field padding-bottom--24">
+                <h5>More Validation</h5>
             </div>
-            <div class="pop-input-wrapper validation-wrapper">
-              <label for="name">Validation Message </label>
-              {{form.inp_validation_msg1}}
-              <p class="text-danger mt-2 mb-0">{{ form.inp_validation_msg1.errors.as_text  }}</p>
-            </div>
-          </div>
-        </li>
 
-        <li class="pop-input-items padding-bottom--24">
-          <div class="d-flex">
-            <div class="pop-input-wrapper max-length">
-              <label for="name">minlength</label>
-              {{form.min_length}}
-              <p class="text-danger mt-2 mb-0">{{ form.min_length.errors.as_text  }}</p>
-            </div>
-            <div class="pop-input-wrapper validation-wrapper">
-              <label for="name">Validation Message </label>
-              {{form.inp_validation_msg2}}
-              <p class="text-danger mt-2 mb-0">{{ form.inp_validation_msg2.errors.as_text  }}</p>
-            </div>
-          </div>
-        </li>
+            <li class="pop-input-items padding-bottom--24">
+                <div class="d-flex">
+                    <div class="pop-input-wrapper max-length">
+                        <label for="name">maxlength</label>
+                        {{form.max_length}}
+                        <p class="text-danger mt-2 mb-0">{{ form.max_length.errors.as_text }}</p>
+                    </div>
+                    <div class="pop-input-wrapper validation-wrapper">
+                        <label for="name">Validation Message </label>
+                        {{form.inp_validation_msg1}}
+                        <p class="text-danger mt-2 mb-0">{{ form.inp_validation_msg1.errors.as_text }}</p>
+                    </div>
+                </div>
+            </li>
+
+            <li class="pop-input-items padding-bottom--24">
+                <div class="d-flex">
+                    <div class="pop-input-wrapper max-length">
+                        <label for="name">minlength</label>
+                        {{form.min_length}}
+                        <p class="text-danger mt-2 mb-0">{{ form.min_length.errors.as_text }}</p>
+                    </div>
+                    <div class="pop-input-wrapper validation-wrapper">
+                        <label for="name">Validation Message </label>
+                        {{form.inp_validation_msg2}}
+                        <p class="text-danger mt-2 mb-0">{{ form.inp_validation_msg2.errors.as_text }}</p>
+                    </div>
+                </div>
+            </li>
+        {% endif %}
 
         
         

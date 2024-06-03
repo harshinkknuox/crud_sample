@@ -240,11 +240,17 @@ class PromptOutput(models.Model):
     text = models.JSONField(default=dict)
 
 class InputType(models.Model):
+    INPUT_TYPES = (
+        ('text', 'Text'),
+        ('number', 'Number'),
+        ('email', 'Email'),
+        ('textarea', 'Textarea'),
+    )
     name = models.CharField(max_length=150,)
-    type = models.CharField(max_length=150,)
+    type = models.CharField(max_length=50,choices=INPUT_TYPES)
     
     def __str__(self):
-        return self.name
+        return f'{self.name} - {self.type}'
 
 class ToolInput(models.Model):
     name = models.CharField(max_length=150,)
@@ -269,14 +275,14 @@ class ToolTemplate(models.Model):
     photo = models.ImageField(upload_to='profile', blank=True, null=True)
 
     def __str__(self):
-        return self.tool_type + ' - ' + self.tool_name
+        return self.tool_name
 
 class ToolTemplateInput(models.Model):
     tool_template = models.ForeignKey(ToolTemplate, on_delete=models.CASCADE, related_name='tool_template')
     tool_input = models.ForeignKey(ToolInput, on_delete=models.CASCADE, related_name='tool_input')
     inputs = models.JSONField(default=dict)
-    validation_message = models.CharField(max_length=150)
-    sort_order = models.CharField(max_length=150)                                     
+    validation_message = models.CharField(max_length=150, blank=True, null=True)
+    sort_order = models.CharField(max_length=150, blank=True, null=True)                                     
 
 
 class ToolKeyword(models.Model):

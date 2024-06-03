@@ -13,7 +13,7 @@
                 
                 <div class="prompt-form" id="prompt-out-form-div">
                     <div class="formbg-inner">
-                            <input type="hidden" value="{% url 'appswift:tooltemplate_input_create' %}" id="form_url" name="form_url">
+                            <input type="hidden" value="{% url 'appswift:tooltemplate_create' %}" id="form_url" name="form_url">
                         <div class="edit-prompt-form">
                          <div class="col-lg-6">
                             <div class="field padding-bottom--24">
@@ -43,37 +43,7 @@
                             </div>    
 
                             <div class="row" >
-                                <!-- <div class="col-lg-12">
-                                    <div class="row" >
-                                        <div class="col-lg-3">
-                                            <div class="field padding-bottom--24">
-                                                <label for="name">Inputs</label> {{inp_form.tool_input}}
-                                                <p class="text-danger mt-2 mb-0">{{ inp_form.tool_input.errors.as_text }}</p>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="field padding-bottom--24">                                        
-                                            <a class="add-input-details" id="create_input_details" data-fancybox="" data-src="#inputdetails-popup"  data-url="{% url 'appswift:tooltemplate_input_create'%}">
-                                                <button type="button" class="btn btn-primary">Add More details</button>
-                                            </a>  
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <div class="field padding-bottom--24">
-                                                <label for="name">Validation Message</label> {{inp_form.validation_message}}
-                                                <p class="text-danger mt-2 mb-0">{{ inp_form.validation_message.errors.as_text }}</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-lg-3">
-                                            <div class="field padding-bottom--24">
-                                                <label for="name">Sort Order</label> {{inp_form.sort_order}}
-                                                <p class="text-danger mt-2 mb-0">{{ inp_form.sort_order.errors.as_text }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
-
+                               
                                 {{ item_formset.management_form }}
                                 <table class="table">
                                   <thead>
@@ -93,13 +63,22 @@
                                         {{form.id}}
                                       <td >{{ form.tool_input }}</td>
                                       <td>
-                                        <a class="add-input-details" id="create_input_details" data-fancybox="" data-src="#inputdetails-popup"  data-url="{% url 'appswift:tooltemplate_input_create'%}">
-                                        <button type="button" class="btn btn-primary">Add More details</button>
+                                        <a class="add-input-details create_input_details" data-prefix="{{ form.prefix }}" data-fancybox="" data-src="#inputdetails-popup-{{ form.prefix }}" data-url="{% url 'appswift:tooltemplate_input_create' %}">
+                                          <button type="button" class="btn btn-primary">Add More details</button>
                                         </a>
-                                    </td>
+                                        <div class="add-inputdetails" id="inputdetails-popup-{{ form.prefix }}" style="display:none;">
+                                          <div class="pop-body" id="inputdetails-div-{{ form.prefix }}">
+                                            <div class="formbg-inner">
+                                              <h2 class="padding-bottom--15" id="popup_head-{{ form.prefix }}">Add Input Details</h2>
+                                              <div class="inputdetails-form" id="inputdetails-form-div-{{ form.prefix }}">
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </td>
                                       <td >{{ form.validation_message }}</td>
                                       <td >{{ form.sort_order }}</td>
-
+                                      
                                       
                                     </tr>
                                     {% endfor %}
@@ -126,24 +105,7 @@
         </div>
     </div>
 
-    <div>
-        <!-- Curriculum Add form starts-->
-        <div class="add-inputdetails" id="inputdetails-popup" style="display:none;">
-            <div class="pop-body" id="inputdetails-div">
-                <div class="formbg-inner">
-                    <form method="post" action="" class="InputDetailsForm" id="InputDetailsForm" name="InputDetailsForm" >
-                        {% csrf_token %}
-                        <input type="hidden" value="{% url 'appswift:tooltemplate_input_create' %}" id="form_url" name="form_url">
-                        <h2 class="padding-bottom--15" id="popup_head">Add Input Details</h2>
-                        <div class="inputdetails-form" id="inputdetails-form-div">
-                            
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <!-- Curriculum Add form ends -->
-    </div>
+    
 
 
 </div>
@@ -158,24 +120,15 @@
         // Your first script for formset
       $('.form_set_row').formset({
             addText: '<span>Add Input</span>',
-            deleteText: '<i class="fa-solid fa-xmark" ></i>',
+            deleteText: 'remove',
             prefix: '{{ item_formset.prefix }}',
             formCssClass: 'dynamic-formset',
             added: function (row) {
                 // Handle additional logic after adding a form
-            },added: function (row) {
-              $(row).find('select').addClass('select');
-              $(row).find('select').prop('required');
-              $(row).find('select.select').select2();
+                
             },
-            removed: function (row) {
-              updateTotals()
-            }
         });
     });
-    
-    
-    
     
 </script>
 
