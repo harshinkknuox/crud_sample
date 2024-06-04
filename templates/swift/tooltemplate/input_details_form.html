@@ -44,8 +44,8 @@
                     </div>
                     <div class="pop-input-wrapper validation-wrapper">
                         <label for="name">Validation Message </label>
-                        {{form.inp_validation_msg1}}
-                        <p class="text-danger mt-2 mb-0">{{ form.inp_validation_msg1.errors.as_text }}</p>
+                        {{form.min_validation_msg}}
+                        <p class="text-danger mt-2 mb-0">{{ form.min_validation_msg.errors.as_text }}</p>
                     </div>
                 </div>
             </li>
@@ -59,8 +59,8 @@
                     </div>
                     <div class="pop-input-wrapper validation-wrapper">
                         <label for="name">Validation Message </label>
-                        {{form.inp_validation_msg2}}
-                        <p class="text-danger mt-2 mb-0">{{ form.inp_validation_msg2.errors.as_text }}</p>
+                        {{form.max_validation_msg}}
+                        <p class="text-danger mt-2 mb-0">{{ form.max_validation_msg.errors.as_text }}</p>
                     </div>
                 </div>
             </li>
@@ -71,5 +71,6 @@
       <div class="field padding-bottom--24">
           <input class="tooltemplate-input-submit" id="tooltemplate-input-submit" type="submit" name="submit" value="Save">
       </div>
+
   </div>
 </div>

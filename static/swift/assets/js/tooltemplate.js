@@ -81,7 +81,10 @@ $(document).on('click', '.create_input_details', function(event) {
     var row = $(this).closest('.form_set_row');
     var tool = row.find('.tool-select').val();
     console.log("tool ===", tool);
-    
+
+    var placeHolder = $("#id_place_holder").val() || "";
+    console.log("placeHolder ===", placeHolder);
+
     $.ajax({
         url: url,
         headers: { "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() },
@@ -96,6 +99,45 @@ $(document).on('click', '.create_input_details', function(event) {
             $('#inputdetails-form-div-' + prefix).html(response.template);
             $('#popup_head-' + prefix).html(response.title);
         },
+    });
+});
+
+
+$(document).on('click', '.tooltemplate-input-submit', function(event) {
+    event.preventDefault();
+
+    var url = $(this).data('url');
+    var prefix = $(this).data('prefix');
+    var row = $(this).closest('.form_set_row');
+    var tool = row.find('.tool-select').val();
+    
+    var placeHolder = $("#id_place_holder").val() || "";
+    var Indescription = $("#id_description").val() || "";
+    console.log("placeHolder ===", placeHolder);
+    console.log("id_description ===", Indescription);
+
+    $.ajax({
+        url: url,
+        headers: { "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() },
+        method: "GET",
+        data: {
+            
+            'tool': tool,
+            'placeHolder':placeHolder,
+            'description':Indescription,
+            
+        },
+        success: function(response) {
+            alert('Saved')
+
+            $('.add-inputdetails').each(function(){
+                $(this).modal('hide');
+            });
+            
+            $('#inputdetails-form-div-' + prefix).html(response.template);
+            $('#popup_head-' + prefix).html(response.title);
+        },
+       
     });
 });
 
@@ -131,6 +173,7 @@ $(document).ready(function() {
             event.preventDefault();
             var formData = $("#InputDetailsForm").serializeArray();
             var url = $("#form_url").val()
+            
             $.ajax({
                 url: url,
                 headers: {

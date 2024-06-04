@@ -24,13 +24,33 @@ class ToolTemplateView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = ToolTemplateForm(request.POST, request.FILES)
         item_formset = ToolInputFormFormSet(request.POST)
-        
+        place_holder = request.GET.get('placeHolder')
+        print('place_holder====',place_holder)
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            tool = request.GET.get('tool')
+            place_holder = request.GET.get('placeHolder')
+            description = request.GET.get('Indescription')
+
+            max_length= (request.GET.get('max_length'))
+            max_validation_msg = (request.GET.get('max_validation_msg'))
+            min_length= (request.GET.get('min_length'))
+            min_validation_msg= (request.GET.get('min_validation_msg'))
+
+            print("placeHolder===",place_holder)
+            print("description===",description)
+            print("tool===",tool)
+            
             if form.is_valid()  and item_formset.is_valid():
                 with transaction.atomic():
                     form.save()
                     print("form save")
                     item_formset.instance= form.instance
+                    inputdetails =[
+                        {'inputs':{'place_holder':'11', 'description': '22h'}}
+                    ]
+                    
+                    print('++',inputdetails)      
+                    item_formset.inputs =  inputdetails             
                     item_formset.save()
                     print('item_formset===',item_formset)
                 response = {
@@ -66,7 +86,7 @@ class ToolTemplateInputCreateView(LoginRequiredMixin, View):
         print("prefix====",prefix)
         tool_type = ToolInput.objects.get(pk=tool).tool_type.type
         data = {}
-        form = ToolInputForm(prefix=prefix)
+        form = ToolInputForm()
         context = {'form': form, 'id': 0, 'input_type': tool_type}
         data['status'] = True
         data['title'] = 'Add Inputs'

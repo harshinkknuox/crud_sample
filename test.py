@@ -31,3 +31,4 @@ for i in a['select']:
 
 
 
+#https://stackoverflow.com/questions/67340140/how-to-insert-javascript-object-into-django-jsonfield

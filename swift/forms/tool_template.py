@@ -65,7 +65,7 @@ ToolInputFormFormSet = inlineformset_factory(
     ToolTemplate,
     ToolTemplateInput,
     form=ToolTemplateInputForm,
-    extra=1,
+    extra=2,
     can_delete=True,
 )
 
