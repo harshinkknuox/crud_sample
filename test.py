@@ -12,6 +12,7 @@ a = {'select':[{'a':1,'set_as_default':True},{'b':{'l':[]}},{'c':3}]}
 for i in a['select']:
     print(i.get('b',False))
     print('{0}-{1}'.format(i.get('a',False),i.get('set_as_default',False)))
+
 # validation = [
 #     {'input':1,'input_details':{'min_length':'','max_length':100},'validation_message':'Required','sort':1},
 #     {'input':2,'input_details':{'min_length':'','max_length':200,'place_holder':'', 'description': ''},'validation_message':'Required','sort':1},
@@ -32,3 +33,4 @@ for i in a['select']:
 
 
 #https://stackoverflow.com/questions/67340140/how-to-insert-javascript-object-into-django-jsonfield
+#https://www.quora.com/What-is-the-difference-between-request-get-and-request-GET-get-in-django

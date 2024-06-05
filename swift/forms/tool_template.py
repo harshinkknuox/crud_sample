@@ -19,7 +19,7 @@ class ToolInputForm(forms.Form):
             label='Place Holder',
             max_length=150,
             required=True,
-            widget=forms.TextInput(attrs={'autocomplete': 'off'})
+            widget=forms.TextInput(attrs={'autocomplete': 'off','class':'placeholder_key'})
         )
     
     description =forms.CharField(
@@ -56,8 +56,8 @@ class ToolTemplateInputForm(forms.ModelForm):
         fields = ['tool_input','validation_message','sort_order']
         widgets = {
             'tool_input': forms.Select(attrs={'class': 'form-control tool-select'}),
-            'validation_message': forms.TextInput(attrs={'class': 'form-control'}),
-            'sort_order': forms.TextInput(attrs={'class': 'form-control'}),
+            'validation_message': forms.TextInput(attrs={'class': 'form-control validation-message'}),
+            'sort_order': forms.TextInput(attrs={'class': 'form-control sort-order'}),
         }
 
 

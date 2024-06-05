@@ -25,20 +25,20 @@ class ToolTemplateView(LoginRequiredMixin, View):
         form = ToolTemplateForm(request.POST, request.FILES)
         item_formset = ToolInputFormFormSet(request.POST)
         place_holder = request.GET.get('placeHolder')
-        print('place_holder====',place_holder)
+        print('place_holder====!',place_holder)
+
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
             tool = request.GET.get('tool')
             place_holder = request.GET.get('placeHolder')
-            description = request.GET.get('Indescription')
-
-            max_length= (request.GET.get('max_length'))
-            max_validation_msg = (request.GET.get('max_validation_msg'))
-            min_length= (request.GET.get('min_length'))
-            min_validation_msg= (request.GET.get('min_validation_msg'))
-
-            print("placeHolder===",place_holder)
-            print("description===",description)
-            print("tool===",tool)
+            description = request.GET.get('description')
+            print("place_holder=======",place_holder)
+            print("description====!",description)
+            
+            if request.body:
+                data = json.loads(request.body)
+                print("json data----", data)
+            else:
+                data = {}
             
             if form.is_valid()  and item_formset.is_valid():
                 with transaction.atomic():
@@ -47,6 +47,7 @@ class ToolTemplateView(LoginRequiredMixin, View):
                     item_formset.instance= form.instance
                     inputdetails =[
                         {'inputs':{'place_holder':'11', 'description': '22h'}}
+
                     ]
                     
                     print('++',inputdetails)      

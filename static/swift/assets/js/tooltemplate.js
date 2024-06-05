@@ -108,25 +108,44 @@ $(document).on('click', '.tooltemplate-input-submit', function(event) {
 
     var url = $(this).data('url');
     var prefix = $(this).data('prefix');
-    var row = $(this).closest('.form_set_row');
-    var tool = row.find('.tool-select').val();
-    
-    var placeHolder = $("#id_place_holder").val() || "";
-    var Indescription = $("#id_description").val() || "";
-    console.log("placeHolder ===", placeHolder);
-    console.log("id_description ===", Indescription);
+    var formData = [];
+    $('.form_set_row').each(function() {
+        var formRow = $(this);
+        var toolInput = formRow.find('.tool-select').val() || "No Inputs";
+        var placeHolder = formRow.find('#id_place_holder').val() || "None";
+        var description = formRow.find('#id_description').val() || "None";
+        var max_length = formRow.find('#id_max_length').val() || "None";
+        var max_validation_msg = formRow.find('#id_max_validation_msg').val() || "None";
+        var min_length = formRow.find('#id_min_length').val() || "None";
+        var min_validation_msg = formRow.find('#id_min_validation_msg').val() || "None";
+        var validation_message = formRow.find('.validation-message').val() || "None";
+        var sort_order = formRow.find('.sort-order').val() || "None";
 
+        console.log("formRow==",formRow)
+        console.log("placeHolderss==",placeHolder)
+        console.log("id_description===",description)
+        console.log("toolInput==!",toolInput)
+
+        formData.push({
+            "toolInput": toolInput,
+            "input_details":{
+                "placeHolder": placeHolder,
+                "description": description,
+                "max_length": max_length,
+                "max_validation_msg": max_validation_msg,
+                "min_length": min_length,
+                "min_validation_msg": min_validation_msg,},
+            "validation_message": validation_message,
+            "sort_order": sort_order,
+        });
+    });
+    
     $.ajax({
         url: url,
         headers: { "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() },
-        method: "GET",
-        data: {
-            
-            'tool': tool,
-            'placeHolder':placeHolder,
-            'description':Indescription,
-            
-        },
+        method: "POST",
+        data: JSON.stringify(formData),
+        dataType: "json",
         success: function(response) {
             alert('Saved')
 

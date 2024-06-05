@@ -268,10 +268,10 @@ class ToolType(models.Model):
         return self.custom_tool_name
     
 class ToolTemplate(models.Model):
-    tool_type = models.ForeignKey(ToolType,on_delete=models.CASCADE, related_name='template_tool_type')
-    tool_name = models.CharField(max_length=150)
-    tool_context = models.TextField()
-    youtube_link= models.URLField()
+    tool_type = models.ForeignKey(ToolType,on_delete=models.CASCADE, related_name='template_tool_type',blank=True, null=True)
+    tool_name = models.CharField(max_length=150,blank=True, null=True)
+    tool_context = models.TextField(blank=True, null=True)
+    youtube_link= models.URLField(blank=True, null=True)
     photo = models.ImageField(upload_to='profile', blank=True, null=True)
 
     def __str__(self):
