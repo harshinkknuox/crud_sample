@@ -20,3 +20,14 @@ from swift.models import ToolTemplateInput,ToolInput,ToolTemplate
 
 # data = json.loads(request.body)
 #             print("json data----",data)
+
+
+# try:
+#                 if request.method == 'POST':
+#                     data = json.loads(request.body.decode('utf-8'))
+#                     name = data.get('placeHolder')
+#                     print("tryyy===",name)
+#                     print("json data----", data)
+#             except json.JSONDecodeError:
+#                 data = []
+#                 print("Invalid JSON received.")

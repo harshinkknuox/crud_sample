@@ -121,42 +121,47 @@ $(document).on('click', '.tooltemplate-input-submit', function(event) {
         var validation_message = formRow.find('.validation-message').val() || "None";
         var sort_order = formRow.find('.sort-order').val() || "None";
 
-        console.log("formRow==",formRow)
-        console.log("placeHolderss==",placeHolder)
-        console.log("id_description===",description)
-        console.log("toolInput==!",toolInput)
+        console.log("formRow==", formRow);
+        console.log("placeHolderss==", placeHolder);
+        console.log("id_description===", description);
+        console.log("toolInput==!", toolInput);
 
         formData.push({
             "toolInput": toolInput,
-            "input_details":{
+            "input_details": {
                 "placeHolder": placeHolder,
                 "description": description,
                 "max_length": max_length,
                 "max_validation_msg": max_validation_msg,
                 "min_length": min_length,
-                "min_validation_msg": min_validation_msg,},
+                "min_validation_msg": min_validation_msg,
+            },
             "validation_message": validation_message,
             "sort_order": sort_order,
         });
     });
-    
+
     $.ajax({
         url: url,
         headers: { "X-CSRFToken": $("[name=csrfmiddlewaretoken]").val() },
         method: "POST",
         data: JSON.stringify(formData),
+        contentType: "application/json",
         dataType: "json",
         success: function(response) {
-            alert('Saved')
+            alert('Saved');
 
-            $('.add-inputdetails').each(function(){
+            $('.add-inputdetails').each(function() {
                 $(this).modal('hide');
             });
-            
+
             $('#inputdetails-form-div-' + prefix).html(response.template);
             $('#popup_head-' + prefix).html(response.title);
         },
-       
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
+            console.log('Response:', xhr.responseText);
+        }
     });
 });
 
