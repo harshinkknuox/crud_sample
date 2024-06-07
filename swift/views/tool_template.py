@@ -40,7 +40,7 @@ class ToolTemplateView(LoginRequiredMixin, View):
             except json.JSONDecodeError:
                 data = []
                 print("Invalid JSON received.")
-
+                
             # data = json.loads(request.body.decode('utf-8'))
             # print('*'*100,data)
 
@@ -62,14 +62,15 @@ class ToolTemplateView(LoginRequiredMixin, View):
                                 inputs=item['input_details'],
                                 sort=item.get('sort_order', None),
                                 validation_message=item['validation_message']
+                                
                             )
+                            
                         )
                     if tool_template_inputs:
                         ToolTemplateInput.objects.bulk_create(tool_template_inputs)
                         print("bulk create successful", tool_template_inputs)
                     else:
                         print("no inputs in bulk create.")
-                    
                 response = {
                     'status': True,
                     'message': 'Form submitted successfully!',
