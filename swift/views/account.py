@@ -90,6 +90,7 @@ class Home(LoginRequiredMixin, CreateView):
         # if self.request.user.is_authenticated:
         #     return HttpResponseRedirect( reverse('appswift:home' ) )
         cache.set('next', request.GET.get('next', None))
+        
         datas = { 'form' : SignInForm() }
         return render(request, self.template_name, datas)
     

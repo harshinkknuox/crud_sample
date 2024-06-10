@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.urls import reverse
 from django.views.generic import CreateView, View
+from django.urls import reverse
 from swift.forms.tool_template import * 
 from swift.helper import renderfile, is_ajax, LogUserActivity
 from swift.models import ToolInput,ToolType,ToolTemplateInput,ToolTemplate,ToolKeyword
@@ -24,94 +24,75 @@ class ToolTemplateView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         form = ToolTemplateForm(request.POST, request.FILES)
         item_formset = ToolInputFormFormSet(request.POST)
-        place_holder = request.GET.get('placeHolder')
-        print('place_holder====!', place_holder)
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            tool = request.GET.get('tool')
-            place_holder = request.GET.get('placeHolder')
-            description = request.GET.get('description')
-            print("place_holder=======", place_holder)
-            print("description====!", description)
-            
-            try:
-                data = json.loads(request.body.decode('utf-8'))
-                print("json data----", data)
-            except json.JSONDecodeError:
-                data = []
-                print("Invalid JSON received.")
-                
-            # data = json.loads(request.body.decode('utf-8'))
-            # print('*'*100,data)
+            if form.is_valid()  and item_formset.is_valid():
+                data = form.save()
+                for i in item_formset:
+                    input_data = {
+                        'place_holder':i.cleaned_data.get('place_holder'),
+                        'description':i.cleaned_data.get('description'),
+                        
+                        'max_length':i.cleaned_data.get('max_length'),
+                        'max_validation_msg':i.cleaned_data.get('max_validation_msg'),
+                        'min_length':i.cleaned_data.get('min_length'),
+                        'min_validation_msg':i.cleaned_data.get('min_validation_msg'),
+                    }
+                    print('input_data=',input_data)
+                    tool_input = i.cleaned_data['tool_input']
+                    validation_message = i.cleaned_data['validation_message']
+                    sort_order = i.cleaned_data['sort_order']
+                    ToolTemplateInput.objects.create(
+                        tool_template = data,
+                        tool_input=tool_input,
+                        inputs=input_data,
+                        validation_message=validation_message,
+                        sort_order=sort_order
+                    )
+                    print('save')
 
-            
-            if form.is_valid() and item_formset.is_valid():
-                with transaction.atomic():
-                    tool_template_instance = form.save()
-                    item_formset.instance = tool_template_instance
-                    item_formset.save()
-                    print("jsonDATA==",data)
-
-                    tool_template_inputs = []
-                    for item in data:
-                        print("Processing item:", item)
-                        tool_template_inputs.append(
-                            ToolTemplateInput(
-                                tool_template=tool_template_instance,
-                                tool_input_id=item['toolInput'],
-                                inputs=item['input_details'],
-                                sort=item.get('sort_order', None),
-                                validation_message=item['validation_message']
-                                
-                            )
-                            
-                        )
-                    if tool_template_inputs:
-                        ToolTemplateInput.objects.bulk_create(tool_template_inputs)
-                        print("bulk create successful", tool_template_inputs)
-                    else:
-                        print("no inputs in bulk create.")
                 response = {
                     'status': True,
                     'message': 'Form submitted successfully!',
                     'redirect_url': reverse('appswift:tooltemplate_create')
                 }
             else:
-                print('form', form.errors)
-                print('item_formset', item_formset.errors)
+                print('--invalid---')
+                print('form',form.errors)
+                print('item_formset',item_formset.non_form_errors())
+
                 response = {
                     'status': False,
                     'form_errors': form.errors,
+                    'message': 'Form Submission Failed!',
                     'item_formset_errors': item_formset.errors
                 }
+                print('Respo Print===',response)
             return JsonResponse(response)
         else:
-            if form.is_valid() and item_formset.is_valid():
+            if form.is_valid()  and item_formset.is_valid():
                 with transaction.atomic():
-                    tool_template_instance = form.save()
+                    tool_template_instance = form.save()                    
                     item_formset.instance = tool_template_instance
                     item_formset.save()
                 
                 return redirect('appswift:tooltemplate_create')
             else:
-                return render(request, 'swift/tooltemplate/index.html', {
-                    'form': form,
-                    'item_formset': item_formset
-                })
+                return render(request, 'swift/tooltemplate/index.html',)
 
 class ToolTemplateInputCreateView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         tool = request.GET.get('tool')
-        prefix = request.POST.get('prefix')
-        print("prefix====",prefix)
         tool_type = ToolInput.objects.get(pk=tool).tool_type.type
         data = {}
         form = ToolInputForm()
         context = {'form': form, 'id': 0, 'input_type': tool_type}
         data['status'] = True
         data['title'] = 'Add Inputs'
+        data['input_type'] = tool_type
         data['template'] = render_to_string('swift/tooltemplate/input_details_form.html', context, request=request)
         return JsonResponse(data)
+        
 
     def post(self, request, *args, **kwargs):
         response = {}
@@ -152,3 +133,22 @@ class ToolTemplateInputCreateView(LoginRequiredMixin, View):
             response['valid_form'] = False
             response['template'] = render_to_string('swift/tooltemplate/input_details_form.html', context, request=request)
         return JsonResponse(response)
+    
+
+
+
+
+
+
+
+class TemplateToolList(LoginRequiredMixin,View):
+     def get(self, request, *args, **kwargs):
+        tool = request.GET.get('tool')
+        tool_type = ToolType.objects.get(pk=tool).tool_type.type
+        data = {}
+        form = ToolInputForm()
+        context = {'form': form, 'id': 0, 'input_type': tool_type}
+        data['status'] = True
+        data['input_type'] = tool_type
+        data['template'] = render_to_string('swift/tooltemplate/input_details_form.html', context, request=request)
+        return JsonResponse(data)

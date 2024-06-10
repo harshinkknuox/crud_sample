@@ -275,7 +275,7 @@ class ToolTemplate(models.Model):
     photo = models.ImageField(upload_to='profile', blank=True, null=True)
 
     def __str__(self):
-        return self.tool_name
+        return self.tool_name if self.tool_name else "Unnamed ToolTemplate"
 
 class ToolTemplateInput(models.Model):
     tool_template = models.ForeignKey(ToolTemplate, on_delete=models.CASCADE, related_name='tool_template')
@@ -284,8 +284,15 @@ class ToolTemplateInput(models.Model):
     validation_message = models.CharField(max_length=150, blank=True, null=True)
     sort_order = models.CharField(max_length=150, blank=True, null=True)                                     
 
-
+    def __str__(self):
+        tool_template_str = str(self.tool_template) if self.tool_template else "No ToolTemplate"
+        tool_input_str = str(self.tool_input) if self.tool_input else "No ToolInput"
+        return f"{tool_template_str} - {tool_input_str}"
+    
 class ToolKeyword(models.Model):
     tool_template = models.ForeignKey(ToolTemplate,on_delete=models.CASCADE, related_name='tool_template_keyword')
     keyword = models.CharField(max_length=150)
+    
+    def __str__(self):
+        return self.keyword
     
