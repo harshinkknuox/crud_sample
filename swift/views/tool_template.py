@@ -32,7 +32,7 @@ class ToolTemplateView(LoginRequiredMixin, View):
                     input_data = {
                         'place_holder':i.cleaned_data.get('place_holder'),
                         'description':i.cleaned_data.get('description'),
-                        
+                            
                         'max_length':i.cleaned_data.get('max_length'),
                         'max_validation_msg':i.cleaned_data.get('max_validation_msg'),
                         'min_length':i.cleaned_data.get('min_length'),
@@ -135,20 +135,22 @@ class ToolTemplateInputCreateView(LoginRequiredMixin, View):
         return JsonResponse(response)
     
 
-
-
-
-
-
-
 class TemplateToolList(LoginRequiredMixin,View):
-     def get(self, request, *args, **kwargs):
-        tool = request.GET.get('tool')
-        tool_type = ToolType.objects.get(pk=tool).tool_type.type
-        data = {}
-        form = ToolInputForm()
-        context = {'form': form, 'id': 0, 'input_type': tool_type}
-        data['status'] = True
-        data['input_type'] = tool_type
-        data['template'] = render_to_string('swift/tooltemplate/input_details_form.html', context, request=request)
-        return JsonResponse(data)
+    template_name = "swift/tooltemplate/tool_list.html"
+    def get(self, request, *args, **kwargs):
+        tool_types = ToolTemplate.objects.all()
+        print('===',tool_types)
+        context ={
+            'tool_types':tool_types,
+        }
+        return render(request, self.template_name,context)
+    
+class TemplateToolDetail(LoginRequiredMixin,View):
+    template_name = "swift/tooltemplate/template_form.html"
+    def get(self, request, *args, **kwargs):
+        tool_temp_form = ToolTemplateInput.objects.get(pk=self)
+        print('===',tool_temp_form)
+        context ={
+            'tool_temp_form':tool_temp_form,
+        }
+        return render(request, self.template_name,context)

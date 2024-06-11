@@ -36,7 +36,7 @@ from swiftteacher.settings import ACTIVITY_PASSWORD, ALLOWED_IP
 from django.core.paginator import *
 import calendar
 #from hisensehr.tasks import send_email_to_users
-from swift.models import User
+from swift.models import User,ToolType
 from swift.helper import emailhelper
 
 
@@ -94,6 +94,18 @@ class Home(LoginRequiredMixin, CreateView):
         datas = { 'form' : SignInForm() }
         return render(request, self.template_name, datas)
     
+class HomeLayout(LoginRequiredMixin,View):
+    template_name = "swift/layout/user_base.html"
+    def get(self, request, *args, **kwargs):
+        tool_types = ToolType.objects.all()
+        print('=====',tool_types)
+
+        context ={
+            'tool_types':tool_types,
+        }
+        return render(request, self.template_name,context)
+
+
 
 class SignOut(CreateView):
     def get(self, request, *args, **kwargs):

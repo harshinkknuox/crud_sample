@@ -44,9 +44,9 @@ urlpatterns = [
     path('tooltemplate/create', ToolTemplateView.as_view(), name='tooltemplate_create'),
     path('tooltemplate/input-details/create',ToolTemplateInputCreateView.as_view(), name='tooltemplate_input_create'),
     
-    path('tooltemplate/list',TemplateToolList.as_view(),name='tooltemplate_list'),
     path('templatetool/create',TemplateToolView.as_view(), name='template_tool_create'),
 
-
+    path('tooltemplate/list',TemplateToolList.as_view(),name='tooltemplate_list'),
+    path('tooltemplate/detail/<int:pk>/',TemplateToolDetail.as_view(),name='tooltemplate_form')
     
 ]

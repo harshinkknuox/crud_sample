@@ -273,7 +273,7 @@ class ToolTemplate(models.Model):
     tool_context = models.TextField(blank=True, null=True)
     youtube_link= models.URLField(blank=True, null=True)
     photo = models.ImageField(upload_to='profile', blank=True, null=True)
-
+    
     def __str__(self):
         return self.tool_name if self.tool_name else "Unnamed ToolTemplate"
 

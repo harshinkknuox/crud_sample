@@ -71,8 +71,8 @@
                         
                     </ul>
                 </li>
-
-                <li class="sidebar-item">
+                
+                {% comment %} <li class="sidebar-item">
                     <a href="#" class="sidebar-link sub-link">
                         <span class="menu-icon">
                             <img class="icon-dark" src="{% static 'swift/assets/images/dashboard.svg' %}">
@@ -91,7 +91,18 @@
                        {% endfor %}
                         
                     </ul>
+                </li> {% endcomment %}
+
+                <li class="sidebar-item">
+                    <a href="{% url 'appswift:tooltemplate_list' %}" class="sidebar-link">
+                        <span class="menu-icon">
+                            <img class="icon-dark" src="{% static 'swift/assets/images/dashboard.svg' %}">
+                            <img class="icon-white" src="{% static 'swift/assets/images/dashboard-white.svg' %}">
+                        </span>
+                        <span class="menu-item">Tool List</span>
+                    </a>
                 </li>
+
                 <li class="sidebar-item">
                     <a href="{% url 'appswift:signout' %}" class="sidebar-link">
                         <span class="menu-icon">

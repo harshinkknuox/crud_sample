@@ -34,3 +34,17 @@ for i in a['select']:
 
 #https://stackoverflow.com/questions/67340140/how-to-insert-javascript-object-into-django-jsonfield
 #https://www.quora.com/What-is-the-difference-between-request-get-and-request-GET-get-in-django
+
+
+# onditional section
+# The code then checks if the input_type variable is not equal to 'email'. If this condition is true, the following section is rendered:
+
+# More Validation section
+# This section contains two list items (li elements) with classes pop-input-items. Each list item contains two input fields with labels and validation error messages:
+
+# maxlength:
+# A text input field for setting the maximum length of the input.
+# A text input field for setting the validation message for the maximum length.
+# minlength:
+# A text input field for setting the minimum length of the input.
+# A text input field for setting the validation message for the minimum length.
