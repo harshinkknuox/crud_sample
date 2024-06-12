@@ -17,3 +17,8 @@
 #     print(tool_template)  # prints the ToolTemplate instance
 #     for tool_template_input in tool_template.tooltemplateinput_set.all():
 #         print(tool_template_input)  # prints the related ToolTemplateInput instances
+
+
+#https://stackoverflow.com/questions/67340140/how-to-insert-javascript-object-into-django-jsonfield
+#https://www.quora.com/What-is-the-difference-between-request-get-and-request-GET-get-in-django
+#https://chatgpt.com/share/4ce2458b-a09d-436f-9ea8-5eb52ebe864a

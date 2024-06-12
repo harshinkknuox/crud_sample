@@ -4,42 +4,34 @@
 <div class="content-inner full-screen">
     <div class="page-block">
         <div class="d-flex justify-content-between">
-            <h1 class="page-block-title">Tool Template FORM</h1>
-        </div>
-
-        <div>
-            <form method="post" action="" id="toolTemplateInputForm">
-                {% csrf_token %}
-                <div class="prompt-form" id="prompt-out-form-div">
-                    <div class="formbg-inner">
-                        <input type="hidden" value="{% url 'appswift:tooltemplate_create' %}" id="form_url" name="form_url">
-                        <div class="edit-prompt-form">
-                            <div class="col-lg-6">
-                                <div class="field padding-bottom--24">
-                                    <label for="tool_type">Tool Type</label> {{ form.tool_type }}
-                                    <p class="text-danger mt-2 mb-0">{{ form.tool_type.errors.as_text }}</p>
-                                </div>
-                                <div class="field padding-bottom--24">
-                                    <label for="tool_name">Name</label> {{ form.tool_name }}
-                                    <p class="text-danger mt-2 mb-0">{{ form.tool_name.errors.as_text }}</p>
-                                </div>
-                                <div class="field padding-bottom--24">
-                                    <label for="tool_context">Tool Context</label> {{ form.tool_context }}
-                                    <p class="text-danger mt-2 mb-0">{{ form.tool_context.errors.as_text }}</p>
-                                </div>
-                                <div class="field padding-bottom--24">
-                                    <label for="youtube_link">Youtube Link</label> {{ form.youtube_link }}
-                                    <p class="text-danger mt-2 mb-0">{{ form.youtube_link.errors.as_text }}</p>
-                                </div>
-                            </div>
-                            
-                            
-                        </div>
-                    </div>
-                </div>
-            </form>
+            <h1 class="page-block-title">{{ tool_template.tool_name }} - Form</h1>
         </div>
         
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="card">
+                    <h5 class="card-header">{{ tool_template.tool_type }}</h5>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ tool_template.tool_name }}</h5>
+                        <p class="card-text">{{ tool_template.tool_context }}</p>
+                        <a href="{{ tool_template.youtube_link }}" class="btn btn-primary" target="_blank">Open Link</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-lg-6">
+                <form method="post">
+                    {% csrf_token %}
+                    {% for form in forms %}
+                        {{ form.as_p }}
+                        {{ form.errors }}
+                    {% endfor %}
+                    <button type="submit" class="btn btn-primary mt-4">Submit</button>
+                </form>
+            </div>    
+        </div>
     </div>
 </div>
 {% endblock body_block %}

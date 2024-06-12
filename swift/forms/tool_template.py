@@ -104,12 +104,53 @@ ToolInputFormFormSet = inlineformset_factory(
 )
 
 
-    # def save(self, commit=True):
-    #     instance = super().save(commit=False)
-    #     instance.inputs = {
-    #         'place_holder': self.cleaned_data['place_holder'],
-    #         'description': self.cleaned_data['description']
-    #     }
-    #     if commit:
-    #         instance.save()
-    #     return instance
+class TemplateForm(forms.Form):
+    def __init__(self, tool_template_input, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        input_type = tool_template_input.inputs.get('type')
+        if input_type == 'number':
+            self.fields['tool_input'] = forms.IntegerField(
+                label=tool_template_input.inputs.get('place_holder', 'Place Holder'),
+                max_length=tool_template_input.inputs.get('max_length', 150),
+                required=True,
+                widget=forms.NumberInput(attrs={'autocomplete': 'off','class':'form-control'}),
+                error_messages={ 'required': tool_template_input.validation_message}
+            )
+        else:
+            self.fields['tool_input'] = forms.CharField(
+                label=tool_template_input.inputs.get('place_holder', 'Place Holder'),
+                max_length=tool_template_input.inputs.get('max_length', 150),
+                required=True,
+                widget=forms.Textarea(attrs={'autocomplete': 'off','class':'form-control'}),
+                error_messages={ 'required': tool_template_input.validation_message}
+            )
+        
+
+    
+# class TemplateForm(forms.Form):
+#     def __init__(self, tool_template_input, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.fields['tool_input'] = forms.CharField(
+#             label=tool_template_input.inputs.get('place_holder', 'Place Holder'),
+#             max_length=tool_template_input.inputs.get('max_length', 150),
+#             required=True,
+#             widget=forms.TextInput(attrs={'autocomplete': 'off'})
+#         )
+
+#         self.fields['tool_input'] = forms.NumberInput(
+#             label=tool_template_input.inputs.get('place_holder', 'Place Holder'),
+#             max_length=tool_template_input.inputs.get('max_length', 150),
+#             required=True,
+#             widget=forms.TextInput(attrs={'autocomplete': 'off'})
+#         )
+
+
+# def save(self, commit=True):
+#     instance = super().save(commit=False)
+#     instance.inputs = {
+#         'place_holder': self.cleaned_data['place_holder'],
+#         'description': self.cleaned_data['description']
+#     }
+#     if commit:
+#         instance.save()
+#     return instance

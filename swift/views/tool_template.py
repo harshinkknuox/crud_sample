@@ -147,10 +147,14 @@ class TemplateToolList(LoginRequiredMixin,View):
     
 class TemplateToolDetail(LoginRequiredMixin,View):
     template_name = "swift/tooltemplate/template_form.html"
-    def get(self, request, *args, **kwargs):
-        tool_temp_form = ToolTemplateInput.objects.get(pk=self)
-        print('===',tool_temp_form)
-        context ={
-            'tool_temp_form':tool_temp_form,
+    def get(self, request, pk, *args, **kwargs):
+        tool_template = get_object_or_404(ToolTemplate, pk=pk)
+        tool_inputs = ToolTemplateInput.objects.filter(tool_template=tool_template)
+        forms = [TemplateForm(tool_input) for tool_input in tool_inputs]
+        
+        context = {
+            'tool_template': tool_template,
+            'tool_inputs': tool_inputs,
+            'forms': forms,
         }
-        return render(request, self.template_name,context)
+        return render(request, self.template_name, context)
