@@ -150,7 +150,23 @@ class TemplateToolDetail(LoginRequiredMixin,View):
     def get(self, request, pk, *args, **kwargs):
         tool_template = get_object_or_404(ToolTemplate, pk=pk)
         tool_inputs = ToolTemplateInput.objects.filter(tool_template=tool_template)
-        forms = [TemplateForm(tool_input) for tool_input in tool_inputs]
+        forms = DynamicToolTemplateInputForm(tool_template_inputs=tool_inputs)
+        
+        context = {
+            'tool_template': tool_template,
+            'tool_inputs': tool_inputs,
+            'forms': forms,
+        }
+        return render(request, self.template_name, context)
+    
+    def post(self, request, pk, *args, **kwargs):
+        tool_template = get_object_or_404(ToolTemplate, pk=pk)
+        tool_inputs = ToolTemplateInput.objects.filter(tool_template=tool_template)
+        
+        forms = DynamicToolTemplateInputForm(request.POST, tool_template_inputs=tool_inputs)
+
+        if forms.is_valid():
+            return redirect('/')
         
         context = {
             'tool_template': tool_template,

@@ -245,6 +245,7 @@ class InputType(models.Model):
         ('number', 'Number'),
         ('email', 'Email'),
         ('textarea', 'Textarea'),
+        ('select', 'Select'),
     )
     name = models.CharField(max_length=150,)
     type = models.CharField(max_length=50,choices=INPUT_TYPES)
@@ -255,7 +256,7 @@ class InputType(models.Model):
 class ToolInput(models.Model):
     name = models.CharField(max_length=150,)
     tool_type = models.ForeignKey(InputType, on_delete=models.CASCADE, related_name='input_type')
-
+    inputs = models.JSONField(default=dict)
     def __str__(self):
         return self.name
 

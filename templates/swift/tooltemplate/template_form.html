@@ -4,7 +4,7 @@
 <div class="content-inner full-screen">
     <div class="page-block">
         <div class="d-flex justify-content-between">
-            <h1 class="page-block-title">{{ tool_template.tool_name }} - Form</h1>
+            <h1 class="page-block-title">{{ tool_template.tool_name }} - {{ tool_template.tool_type }}</h1>
         </div>
         
         <div class="row">
@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ tool_template.tool_name }}</h5>
                         <p class="card-text">{{ tool_template.tool_context }}</p>
-                        <a href="{{ tool_template.youtube_link }}" class="btn btn-primary" target="_blank">Open Link</a>
+                        {% comment %} <a href="{{ tool_template.youtube_link }}" class="btn btn-primary" target="_blank">Open Link</a> {% endcomment %}
                     </div>
                 </div>
             </div>
@@ -23,11 +23,19 @@
         <div class="row mt-4">
             <div class="col-lg-6">
                 <form method="post">
-                    {% csrf_token %}
-                    {% for form in forms %}
-                        {{ form.as_p }}
-                        {{ form.errors }}
-                    {% endfor %}
+                        {% csrf_token %}
+                        {% for field in forms %}
+                            <div class="mb-3">
+                                <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
+                                {% if field.help_text %}
+                                    <div class="form-text">{{ field.help_text }}</div>
+                                {% endif %}
+                                {% for error in field.errors %}
+                                    <div class="text-danger">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
                     <button type="submit" class="btn btn-primary mt-4">Submit</button>
                 </form>
             </div>    

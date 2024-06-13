@@ -264,6 +264,9 @@
                         row.find('.number-hide').show()
                     }
                     if (response.input_type === 'textarea' ){
+                        row.find('.number-hide').show()
+                    }
+                    if (response.input_type === 'select' ){
                         row.find('.number-hide').hide()
                     }
                 },
@@ -272,9 +275,17 @@
         })
     });
    
-    $(document).on('click', '.delete-row', function() {
-        $(this).closest('.form_set_row').remove();
-        $('.form_set_row').formset('update');
+    
+
+    $(document).on('click','.delete-row', function(){
+        var $this = $(this);
+        $parent_table = $this.parents('table');
+        var length = $parent_table.find('tr').length;
+        if(length > 3){
+          $this.parents('tr').remove();
+        }
     });
+
+    
 </script>
 {% endblock page_script %}
